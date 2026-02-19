@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import getCabins from "../../services/Cabins";
+import { getCabins } from "../../services/Cabins";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 
@@ -39,6 +39,7 @@ function CabinTable() {
   });
 
   if (isLoading) return <Spinner />;
+  if (error) alert(error.message);
 
   return (
     <Table>
