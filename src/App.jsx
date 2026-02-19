@@ -43,6 +43,7 @@ export default function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
+<<<<<<< HEAD
       <Toaster
         position="top-center"
         gutter={12}
@@ -63,6 +64,9 @@ export default function App() {
           },
         }}
       />
+=======
+      <Toaster/>
+>>>>>>> 5f0e921d85310877d81ff407073bced4d164f82a
     </QueryClientProvider>
   );
 }
