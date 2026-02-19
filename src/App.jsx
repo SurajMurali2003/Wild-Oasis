@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalSttyles";
 import AppLayout from "./ui/AppLayout";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const queryClient = new QueryClient({
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
+      <Toaster/>
     </QueryClientProvider>
   );
 }
