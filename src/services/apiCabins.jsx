@@ -15,55 +15,54 @@ export async function deleteCabin(id) {
   const { error } = await supabase.from("cabins").delete().eq("id", id);
 
   if (error) {
-    console.error(error);
+    console.log(error);
     throw new Error("Cannot delete Cabins Data");
   }
 }
 
 export async function createEditCabin(newCabin, id) {
-  console.log(newCabin, Number(id));
+  console.log(newCabin, id);
+  const hasImagepath = newCabin.image?.startsWith?.(supabaseUrl);
 
-  // Checking Image new or old
-  const hasImagePath = typeof newCabin.image === "string" ? true : false;
-  console.log("hasImagePath", hasImagePath);
-
-  const imageName = `${newCabin?.image?.name}-${Math.random()}`;
-  const imagePath = hasImagePath
+  // 1.) Create Cabin
+  const imageName = `${Math.random()}-${newCabin?.image?.name?.replaceAll("/", "")}`;
+  const imagePath = hasImagepath
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   let query = supabase.from("cabins");
-  // Create Cabin
+
+  // A Create
   if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
 
-  // Edit Cabin
-  if (id) {
-    const test = await supabase.from("cabins").select("*").eq("id", id);
+  // B Edit
+  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
 
-    console.log("Check cabin:", test.data);
-    console.log(newCabin, imagePath, id);
-
-    query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
-  }
-
-  const { data, error } = await query.select();
-  console.log(data);
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.log(error);
     throw new Error("Cannot create Cabins Data");
   }
 
-  // Upload File
+  if (hasImagepath) return data; // No need to upload Same image again
+
+  // 2.) Uploading File
   const { error: storageError } = await supabase.storage
     .from("cabin-images")
     .upload(imageName, newCabin?.image);
 
   if (storageError) {
-    // Deleting the recent cabin
-    await supabase.from("cabins").delete().eq("id", data?.id);
-    throw new Error("Cannot Upload File, Cabin Deleted");
-  }
+    console.log(storageError);
 
+    const { error } = await supabase.from("cabins").delete().eq("id", data.id);
+
+    if (error) {
+      console.log(error);
+      throw new Error("Cannot delete Cabins Data");
+    }
+
+    throw new Error("Cannot Upload image, Cabin was deleted");
+  }
   return data;
 }

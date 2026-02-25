@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 
 export function useDeleteCabin() {
   const queryClient = useQueryClient();
-
   const {
     isLoading: isDeleting,
     mutate: deleteCabin,
@@ -22,5 +21,5 @@ export function useDeleteCabin() {
     },
   });
 
-  return { isDeleting, error, deleteCabin };
+  return { deleteCabin, isDeleting, error };
 }
