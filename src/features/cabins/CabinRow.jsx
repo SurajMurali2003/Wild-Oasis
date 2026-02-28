@@ -50,41 +50,53 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { id, name, maxCapacity, regularPrice, discount, image, description } = cabin;
+  const { id, name, maxCapacity, regularPrice, discount, image, description } =
+    cabin;
 
   const [isShowForm, setIsShowForm] = useState(false);
 
   const { addCabin, isCreating: isDuplicating } = useCreateCabin();
-  const { deleteCabin, isDeleting} = useDeleteCabin();
-  
-  function handleCabinDuplicate(){
+  const { deleteCabin, isDeleting } = useDeleteCabin();
+
+  function handleCabinDuplicate() {
     addCabin({
       name: `copy of ${name}`,
-      maxCapacity, regularPrice, discount, image, description
-     })
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    });
   }
 
   return (
     <>
-    <TableRow>
-      <Img src={image} />
-      <Cabin>{name} </Cabin>
-      <div>Fits up to {maxCapacity} guests</div>
+      <TableRow>
+        <Img src={image} />
+        <Cabin>{name} </Cabin>
+        <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
 
-        {discount ? <Discount>{formatCurrency(discount)} </Discount> :
-        <span>&mdash;</span>
-        }
+        {discount ? (
+          <Discount>{formatCurrency(discount)} </Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
 
-      <div>
-      <button onClick={handleCabinDuplicate} disabled={isDuplicating}><HiSquare2Stack/></button>
-      <button onClick={() => setIsShowForm(show => !show)}><HiPencil/></button>
-      <button onClick={() => deleteCabin(id)} disabled={isDeleting}><HiTrash/></button>
-          
-      </div>
-    </TableRow>
+        <div>
+          <button onClick={handleCabinDuplicate} disabled={isDuplicating}>
+            <HiSquare2Stack />
+          </button>
+          <button onClick={() => setIsShowForm((show) => !show)}>
+            <HiPencil />
+          </button>
+          <button onClick={() => deleteCabin(id)} disabled={isDeleting}>
+            <HiTrash />
+          </button>
+        </div>
+      </TableRow>
       {isShowForm && <CreateCabinForm cabin={cabin} editId={id} />}
-      </>
+    </>
   );
 }
 

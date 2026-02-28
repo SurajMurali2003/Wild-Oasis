@@ -13,37 +13,6 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-const FormRow2 = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-
-  padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
 const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
@@ -59,11 +28,10 @@ function CreateCabinForm({cabin, editId, onClose, type}) {
   const { errors } = formState;
   console.log(errors);
 
-
   // Create Cabin
   const { addCabin, isCreating } = useCreateCabin();
 
-    // Edit Cabin
+  // Edit Cabin
   const { editCabin, isEditing } = useEditCabin();
 
   const isWorking = isCreating || isEditing;
@@ -99,7 +67,7 @@ function CreateCabinForm({cabin, editId, onClose, type}) {
         <Input
           type="text"
           id="name"
-        disabled={isWorking}
+          disabled={isWorking}
           {...register("name", {
             required: "Cabin Name Required",
           })}
@@ -136,7 +104,7 @@ function CreateCabinForm({cabin, editId, onClose, type}) {
         label="Regular price"
         error={
           errors?.regularPrice?.message && (
-          <Error> {errors?.regularPrice?.message}</Error>
+            <Error> {errors?.regularPrice?.message}</Error>
           )
         }
       >
@@ -195,23 +163,26 @@ function CreateCabinForm({cabin, editId, onClose, type}) {
         />
       </FormRow>
 
-      <FormRow2>
-        <Label htmlFor="image">Cabin photo</Label>
-              <FileInput id="image" accept="image/*"  {...register("image", {
-               required: isFormEditing ? false : "Image is Required"
-        })} />
-      </FormRow2>
+      <FormRow label="Cabin photo">
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: isFormEditing ? false : "Image is Required",
+          })}
+        />
+      </FormRow>
 
-      <FormRow2>
+      <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           
           Cancel
         </Button>
         <Button type="primary" disabled={isWorking}>
-         {isFormEditing ? "Edit Cabin" : "Create new Cabin"}
+          {isFormEditing ? "Edit Cabin" : "Create new Cabin"}
         </Button>
-      </FormRow2>
+      </FormRow>
     </Form>
   );
 }
