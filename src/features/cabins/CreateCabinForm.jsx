@@ -18,7 +18,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm({ cabin, editId, onClose }) {
+function CreateCabinForm({ cabin, editId, onClose, type }) {
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: cabin ? cabin : {},
   });
@@ -44,7 +44,7 @@ function CreateCabinForm({ cabin, editId, onClose }) {
         {
           onSuccess: () => {
             cabin = {};
-            onClose();
+            onClose?.();
           },
         },
       );
@@ -55,7 +55,7 @@ function CreateCabinForm({ cabin, editId, onClose }) {
           onSuccess: (data) => {
             console.log(data);
             reset();
-            onClose();
+            onClose?.();
           },
         },
       );
@@ -66,7 +66,7 @@ function CreateCabinForm({ cabin, editId, onClose }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form type={type} onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow
         label="Cabin name"
         error={errors?.name?.message && <Error> {errors?.name?.message}</Error>}
@@ -182,7 +182,7 @@ function CreateCabinForm({ cabin, editId, onClose }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset" onClick={onClose}>
+        <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           Cancel
         </Button>
         <Button type="primary" disabled={isWorking}>
