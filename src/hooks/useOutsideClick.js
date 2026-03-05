@@ -16,5 +16,5 @@ export function useOutsideClick(close) {
     return () => document.removeEventListener('click', handleClick, true);
   }, [close]);
 
-  return { modalRef };
+  return modalRef;
 }

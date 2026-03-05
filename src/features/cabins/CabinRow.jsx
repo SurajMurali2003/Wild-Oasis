@@ -13,6 +13,7 @@ import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
   display: block;
@@ -45,7 +46,6 @@ function CabinRow({ cabin }) {
   const { id, name, maxCapacity, regularPrice, discount, image, description } =
     cabin;
 
-  const [isShowForm, setIsShowForm] = useState(false);
 
   const { addCabin, isCreating: isDuplicating } = useCreateCabin();
   const { deleteCabin, isDeleting } = useDeleteCabin();
@@ -75,27 +75,30 @@ function CabinRow({ cabin }) {
       )}
 
       <div>
-        <button onClick={handleCabinDuplicate} disabled={isDuplicating}>
-          <HiSquare2Stack />
-        </button>
-
-        <Modal>
+       
+      <Modal>
+          
+        <Menus.Menu>
+          <Menus.Toggle id={id} />
+          
+          <Menus.List id={id}>
+              
+          <Menus.Button icon={<HiSquare2Stack />} onClick={handleCabinDuplicate}>Duplicate </Menus.Button>
+            
           <Modal.Open opens={"cabin-edit"}>
-            <button>
-              <HiPencil />
-            </button>
+             <Menus.Button icon={<HiPencil/>}>Edit </Menus.Button>
           </Modal.Open>
+            
+          <Modal.Open opens={"cabin-delete"}>
+            <Menus.Button icon={<HiTrash/>}>Delete </Menus.Button>
+          </Modal.Open>
+            
+          </Menus.List>
+
           <Modal.Window name={"cabin-edit"}>
             <CreateCabinForm cabin={cabin} editId={id} />
           </Modal.Window>
-        </Modal>
-
-        <Modal>
-          <Modal.Open opens={"cabin-delete"}>
-            <button disabled={isDeleting}>
-              <HiTrash />
-            </button>
-          </Modal.Open>
+     
           <Modal.Window name={"cabin-delete"}>
             <ConfirmDelete
               onConfirm={() => deleteCabin(id)}
@@ -103,7 +106,8 @@ function CabinRow({ cabin }) {
               disabled={isDeleting}
             />
           </Modal.Window>
-        </Modal>
+        </Menus.Menu>
+      </Modal>
       </div>
     </Table.Row>
   );
