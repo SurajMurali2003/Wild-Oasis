@@ -5,6 +5,8 @@ import Button from "../ui/Button";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import AddCabin from "../features/cabins/AddCabin";
+import CabinTableOpearations from "../features/cabins/CabinTableOpearations";
+import SortBy from "../ui/SortBy";
 
 function Cabins() {
   //   useEffect(() => {
@@ -25,7 +27,7 @@ function Cabins() {
     <>
       <Row type="horizontal">
         <Heading as="h1">All cabins</Heading>
-        <p> Filter/Sort</p>
+        <CabinTableOpearations />
       </Row>
       <Row>
         <CabinTable />
