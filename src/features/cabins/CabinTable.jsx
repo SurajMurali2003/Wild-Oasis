@@ -4,6 +4,7 @@ import { getCabins } from "../../services/apiCabins";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const TableHeader = styled.header`
   display: grid;
@@ -35,21 +36,23 @@ function CabinTable() {
   if (error) alert(error.message);
 
   return (
-    <Table columns={"0.6fr 1.8fr 2.2fr 1fr 1fr 1fr"}>
-      <Table.Header>
-        <div>Cabin</div>
-        <div>Name</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>Discount</div>
-        <div>Action</div>
-      </Table.Header>
+    <Menus>
+      <Table columns={"0.6fr 1.8fr 2.2fr 1fr 1fr 1fr"}>
+        <Table.Header>
+          <div>Cabin</div>
+          <div>Name</div>
+          <div>Capacity</div>
+          <div>Price</div>
+          <div>Discount</div>
+          <div>Action</div>
+        </Table.Header>
 
-      <Table.Body
-        data={cabins}
-        render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
-      />
-    </Table>
+        <Table.Body
+          data={cabins}
+          render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+        />
+      </Table>
+    </Menus>
   );
 }
 

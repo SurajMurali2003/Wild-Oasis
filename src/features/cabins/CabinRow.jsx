@@ -13,6 +13,7 @@ import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
   display: block;
@@ -78,7 +79,6 @@ function CabinRow({ cabin }) {
         <button onClick={handleCabinDuplicate} disabled={isDuplicating}>
           <HiSquare2Stack />
         </button>
-
         <Modal>
           <Modal.Open opens={"cabin-edit"}>
             <button>
@@ -89,7 +89,6 @@ function CabinRow({ cabin }) {
             <CreateCabinForm cabin={cabin} editId={id} />
           </Modal.Window>
         </Modal>
-
         <Modal>
           <Modal.Open opens={"cabin-delete"}>
             <button disabled={isDeleting}>
@@ -104,6 +103,17 @@ function CabinRow({ cabin }) {
             />
           </Modal.Window>
         </Modal>
+
+        {/* ReUsable MENU-Context */}
+        <Menus.Menu>
+          <Menus.Toggle id={id} />
+
+          <Menus.List id={id}>
+            <Menus.Button>Duplicate</Menus.Button>
+            <Menus.Button>Edit</Menus.Button>
+            <Menus.Button>Delete</Menus.Button>
+          </Menus.List>
+        </Menus.Menu>
       </div>
     </Table.Row>
   );
