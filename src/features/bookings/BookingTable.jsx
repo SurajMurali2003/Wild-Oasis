@@ -14,8 +14,9 @@ function BookingTable() {
   console.log(bookings);
   console.log(isLoading);
 
+
+  if (isLoading) return <Spinner/>
   if (!bookings?.length) return <Empty resource={"Bookings"} />;
-  if (isLoading) return <Spinner />;
 
   return (
     <Menus>
