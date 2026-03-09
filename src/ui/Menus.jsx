@@ -64,29 +64,32 @@ const StyledButton = styled.button`
   }
 `;
 
-const MenusContext = createContext();
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
-function Menus({ children }) {
+const MenuContext = createContext();
+
+export default function Menus({ children }) {
   const [openId, setOpenId] = useState("");
-  const [position, setPosition] = useState(null);
+  const [position, setPosition] = useState("");
 
   const close = () => setOpenId("");
   const open = setOpenId;
 
   return (
-    <MenusContext.Provider
+    <MenuContext.Provider
       value={{ openId, close, open, position, setPosition }}
     >
       {children}
-    </MenusContext.Provider>
+    </MenuContext.Provider>
   );
 }
 
 function Toggle({ id }) {
-  const { openId, close, open, setPosition } = useContext(MenusContext);
+  const { openId, close, open, setPosition } = useContext(MenuContext);
 
   function handleClick(e) {
     const rect = e.target.closest("button").getBoundingClientRect();
+    console.log(rect);
 
     setPosition({
       x: window.innerWidth - rect.width - rect.x,
@@ -95,32 +98,39 @@ function Toggle({ id }) {
 
     openId === "" || openId !== id ? open(id) : close();
   }
-
   return (
     <StyledToggle>
-      <HiEllipsisVertical onClick={handleClick} />
+      {" "}
+      <HiEllipsisVertical onClick={handleClick} />{" "}
     </StyledToggle>
   );
 }
 
-function List({ id, children }) {
-  const { openId, position } = useContext(MenusContext);
+function List({ children, id }) {
+  const { openId, position, close } = useContext(MenuContext);
+  const ref = useOutsideClick(close);
+  console.log("ref", ref);
 
   if (openId !== id) return null;
 
-  console.log(openId, id);
-
   return createPortal(
-    <StyledList position={position}>{children}</StyledList>,
+    <StyledList position={position} ref={ref}>
+      {children}{" "}
+    </StyledList>,
     document.body,
   );
 }
 
-function Button({ children }) {
+function Button({ children, onClick }) {
+  const { close } = useContext(MenuContext);
+  function handleClick() {
+    onClick?.();
+    close();
+  }
   return (
-    <StyledButton>
-      <li>{children} </li>
-    </StyledButton>
+    <li>
+      <StyledButton onClick={handleClick}>{children} </StyledButton>{" "}
+    </li>
   );
 }
 
@@ -128,5 +138,3 @@ Menus.Menu = Menu;
 Menus.Toggle = Toggle;
 Menus.List = List;
 Menus.Button = Button;
-
-export default Menus;

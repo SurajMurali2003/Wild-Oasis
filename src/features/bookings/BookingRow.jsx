@@ -46,6 +46,7 @@ function BookingRow({
     status,
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
+    count,
   },
 }) {
   const statusToTagName = {
