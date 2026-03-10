@@ -7,8 +7,16 @@ import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
-import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
+import {
+  HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
+  HiEye,
+  HiTrash,
+} from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
+import { useCheckedOut } from "../check-in-out/useCheckedOut";
+import Spinner from "../../ui/Spinner";
+import { useDeleteBookings } from "./useDeleteBookings";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -58,6 +66,10 @@ function BookingRow({
     "checked-out": "silver",
   };
   const navigate = useNavigate();
+  const { checkout, isloading } = useCheckedOut();
+  const { deleteEachBooking, isloading: isDeleting } = useDeleteBookings();
+
+  if (isloading || isDeleting) return <Spinner />;
 
   return (
     <Table.Row>
@@ -85,13 +97,33 @@ function BookingRow({
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
 
-      <Menus.Menu> 
-        <Menus.Toggle id={bookingId}/>
+      <Menus.Menu>
+        <Menus.Toggle id={bookingId} />
         <Menus.List id={bookingId}>
-          <Menus.Button onClick={() => navigate(`/booking/${bookingId}`)} > <HiEye />See Detials </Menus.Button>
+          <Menus.Button onClick={() => navigate(`/booking/${bookingId}`)}>
+            {" "}
+            <HiEye />
+            See Detials{" "}
+          </Menus.Button>
           {status === "unconfirmed" && (
-            <Menus.Button onClick={() => navigate(`/checkin/${bookingId}`)}> <HiArrowDownOnSquare /> Check In </Menus.Button>
+            <Menus.Button onClick={() => navigate(`/checkin/${bookingId}`)}>
+              {" "}
+              <HiArrowDownOnSquare /> Check In{" "}
+            </Menus.Button>
           )}
+
+          {status === "checked-in" && (
+            <Menus.Button onClick={() => checkout(bookingId)}>
+              {" "}
+              <HiArrowUpOnSquare /> Check Out{" "}
+            </Menus.Button>
+          )}
+
+          <Menus.Button onClick={() => deleteEachBooking(bookingId)}>
+            {" "}
+            <HiTrash />
+            Delete{" "}
+          </Menus.Button>
         </Menus.List>
       </Menus.Menu>
     </Table.Row>
