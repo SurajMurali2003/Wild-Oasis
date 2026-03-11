@@ -12,7 +12,7 @@ export function useLogin() {
       console.log(user);
 
       navigate('/dashboard');
-      toast.success('Login Succefuly');
+      // toast.success('Login Succefuly');
     },
     onError: (err) => {
       console.log(err);
