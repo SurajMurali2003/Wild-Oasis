@@ -39,8 +39,8 @@ export default function App() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Navigate replace to={"dashboard"} />} />
-            <Route path="dashboard" element={ <Dashboard />} />
+            <Route index element={<Navigate replace to={"login"} />} />
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="bookings" element={<Bookings />} />
             <Route path="booking/:bookingId" element={<Booking />} />
             <Route path="checkin/:bookingId" element={<CheckIn />} />
