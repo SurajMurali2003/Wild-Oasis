@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Heading from "../../ui/Heading";
 
 const ChartBox = styled.div`
   /* Box */
@@ -21,42 +22,42 @@ const ChartBox = styled.div`
 const startDataLight = [
   {
     duration: "1 night",
-    value: 0,
+    value: 1,
     color: "#ef4444",
   },
   {
     duration: "2 nights",
-    value: 0,
+    value: 2,
     color: "#f97316",
   },
   {
     duration: "3 nights",
-    value: 0,
+    value: 9,
     color: "#eab308",
   },
   {
     duration: "4-5 nights",
-    value: 0,
+    value: 6,
     color: "#84cc16",
   },
   {
     duration: "6-7 nights",
-    value: 0,
+    value: 3,
     color: "#22c55e",
   },
   {
     duration: "8-14 nights",
-    value: 0,
+    value: 8,
     color: "#14b8a6",
   },
   {
     duration: "15-21 nights",
-    value: 0,
+    value: 5,
     color: "#3b82f6",
   },
   {
     duration: "21+ nights",
-    value: 0,
+    value: 7,
     color: "#a855f7",
   },
 ];
@@ -109,7 +110,7 @@ function prepareData(startData, stays) {
 
   function incArrayValue(arr, field) {
     return arr.map((obj) =>
-      obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
+      obj.duration === field ? { ...obj, value: obj.value + 1 } : obj,
     );
   }
 
@@ -130,3 +131,13 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+function DurationChart({ confromedStatys }) {
+  return (
+    <ChartBox>
+      <Heading as="h2">Stay duration summary </Heading>
+    </ChartBox>
+  );
+}
+
+export default DurationChart;
