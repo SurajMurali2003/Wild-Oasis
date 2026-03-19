@@ -4,7 +4,7 @@ const Input = styled.input`
   padding: 1rem;
   background-color: white;
   width: 400px;
-  color: var(--color-grey-200)
+  color: #4b5563;
 `;
 
 export default Input;
