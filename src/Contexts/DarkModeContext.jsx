@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const darkModeContext = createContext();
 
 function DarkModeProvider({ children }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   useEffect(() => {
     if (isDarkMode) {

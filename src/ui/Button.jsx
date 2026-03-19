@@ -31,7 +31,7 @@ const variations = {
     }
   `,
   secondary: css`
-    color: var(--color-grey-600);
+    color: #4b5563;
     background: var(--color-grey-0);
     border: 1px solid var(--color-grey-200);
 
@@ -54,12 +54,12 @@ const Button = styled.button`
   border-radius: var(--border--radius-sm);
   box-shadow: var(--shadow-sm);
 
-  ${(props) => variations[`${props.type}`]}
+  ${(props) => variations[`${props.variation}`]}
   ${(props) => sizes[`${props.sizes}`]}
 `;
 
 Button.defaultProps = {
-  varaition: "primary",
+  variation: "primary",
   sizes: "medium",
 };
 

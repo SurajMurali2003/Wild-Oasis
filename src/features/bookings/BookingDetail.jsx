@@ -32,15 +32,15 @@ function BookingDetail() {
     "checked-out": "silver",
   };
 
-  const { isLoading, booking = {}, error } = useBooking();
+  const { isLoading, booking = {} } = useBooking();
   console.log(booking);
 
   const { id: bookingId, status } = booking;
 
   if (isLoading || isCheckingOut) return <Spinner />;
-  if (error) {
-    alert(error);
-  }
+  // if (error) {
+  //   alert(error);
+  // }
 
   return (
     <>

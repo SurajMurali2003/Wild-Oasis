@@ -52,6 +52,7 @@ function UpdateUserDataForm() {
           onChange={(e) => setFullName(e.target.value)}
           id="fullName"
           disabled={isUpdating}
+        
         />
       </FormRow>
       <FormRow label="Avatar image">
